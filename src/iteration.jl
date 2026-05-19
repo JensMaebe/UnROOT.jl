@@ -226,7 +226,8 @@ end
 function _get_buffer_range(ba::LazyBranch{T, J, B}, tid::Integer, ::Nothing) where {T,J,B}
     ba.buffer[tid] = basketarray(ba.f, ba.b, -1)  # -1 indicating recovered basket mechanics
     # FIXME: this range is probably wrong for jagged data with non-empty offsets
-    (ba.b.fBasketEntry[end] + 1)::Int:ba.b.fEntries::Int
+    # temporary fix: use the highest index instead of the last index
+    (maximum(ba.b.fBasketEntry) + 1)::Int:ba.b.fEntries::Int
 end
 
 Base.IndexStyle(::Type{<:LazyBranch}) = IndexLinear()
